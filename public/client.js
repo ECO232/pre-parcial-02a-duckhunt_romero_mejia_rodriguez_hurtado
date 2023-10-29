@@ -1,68 +1,145 @@
 //const socket = io()
 
-var x,y;
-
-const v1=1;
-const v2=5;
 let points = 0;
+let numberOfDucks = 8;
+let ducks = [];
+let duckSprite1, duckSprite2, duckHuntBG, crosshair, shoot, duckFall
 
-var ducka;
-var ducko;
-
-let elements = [];
-let cursors = []
-
-function setup() {
-  createCanvas(600, 600);
-  x=0;
-  y=300;
-  color = createColorPicker("green");
-  slider = createSlider(0, 40, 20);
-  id = int(random() * 1000)
-  
-
-  //console.log("id: ", id)
+function preload() {
+  duckSprite1 = loadImage('../assets/duck1.png');
+  duckSprite2 = loadImage('../assets/duck2.png');
+  duckHuntBG = loadImage('../assets/duckHuntBG.jpg');
+  crosshair = loadImage('../assets/PanzerCrosshair.png');
+  shoot = loadSound('../assets/shot.mp3');
+  duckFall = loadSound('../assets/duckFall.mp3')
 }
 
-function preload(){
-    ducka = loadImage('../assets/duck1.png');
-    ducko = loadImage('../assets/duck2.png');
+function setup() {
+  createCanvas(1600, 1200);
+  x = 0;
+  y = 300;
+
+  for (let i = 0; i < numberOfDucks; i++) {
+    let xPos = 200 * i;
+    let yPos = getRand()
+    ducks.push(new duck1(xPos, yPos, 100));
+    xPos = 300 * i
+    yPos = getRand()
+    ducks.push(new duck2(xPos, yPos, 100));
+  }
+  button = createButton('Moar Ducks!')
+  button.mousePressed(restart);
 }
 
 function draw() {
-  background(220);
+  //Backgroun
+  background(duckHuntBG);
   noStroke();
 
-  ducks1=new duck1(300,300,80)
+  //Points
+  textSize(32);
+  fill(255);
+  text("Points: " + points, 25,50);
 
-  ducks1.display()
-  ducks1.move()
+  for (let i = 0; i < ducks.length; i++) {
+    ducks[i].move();
+    ducks[i].display();
+    ducks[i].checkEdges();
   }
 
-  function mousePressed(){
-    if(ducks1.clickMe()){
-      console.log('muelto')
+  let crossSize = 100;
+  image(crosshair, mouseX - crossSize/2, mouseY - crossSize/2, crossSize, crossSize)
+}
+
+function mousePressed() {
+  shoot.play();
+  for (let i = 0; i < ducks.length; i++) {
+    if (ducks[i].clickMe()) {
+      if (ducks[i].type == "duck1") {
+        points = points + 5;
+      } else if (ducks[i].type == "duck2") {
+        points = points + 10;
+      }
+      duckFall.play();
+      ducks.splice(i, 1);
+      break;
+    }
+  }
+}
+
+function restart() {
+  for (let i = 0; i < numberOfDucks; i++) {
+    let xPos = 200 * i;
+    let yPos = getRand()
+    ducks.push(new duck1(xPos, yPos, 100));
+    xPos = 300 * i
+    yPos = getRand()
+    ducks.push(new duck2(xPos, yPos, 100));
+  }
+}
+
+function getRand() {
+  return random(100, height - 200);
+}
+
+class duck1 {
+  constructor(x, y, w) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.type = "duck1";
+  }
+
+  clickMe() {
+    return (dist(mouseX, mouseY, this.x, this.y) < (this.w / 2));
+  }
+
+  move() {
+    this.x = this.x + 4;
+  }
+
+  checkEdges() {
+    if (this.x > width || this.x < 0) {
+      this.x = 0;
+      let yPos = getRand()
+      this.y = yPos;
     }
   }
 
-class duck1 {
-  constructor(x,y,w){
-      this.x=x;
-      this.y=y;
-      this.w=w
+  display() {
+    noStroke();
+    fill(255, 0, 0)
+    image(duckSprite1, this.x - 50, this.y - 50, this.w, this.w);
   }
-  
-  display(){
-      noStroke();
-      fill(100, 200, 100)
-      image(ducka,this.x-50,this.y-50,this.w,this.w);
+}
+
+class duck2 {
+  constructor(x, y, w) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.type = "duck2";
   }
 
-  clickMe(){
-  	return (dist(mouseX, mouseY, this.x-20, this.y-20)<(this.w/2));   
+  clickMe() {
+    return (dist(mouseX, mouseY, this.x, this.y) < (this.w / 2));
   }
 
-  move(){
-    this.x = this.x + 10;
+  move() {
+    this.x = this.x + 8;
+  }
+
+  checkEdges() {
+    if (this.x > width || this.x < 0) {
+      this.x = 0;
+      let yPos = getRand()
+      this.y = yPos;
+    }
+  }
+
+  display() {
+    noStroke();
+    fill(255, 0, 0)
+    image(duckSprite2, this.x - 50, this.y - 50, this.w, this.w);
   }
 }
