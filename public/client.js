@@ -6,6 +6,9 @@ const v1=1;
 const v2=5;
 let points = 0;
 
+var ducka;
+var ducko;
+
 let elements = [];
 let cursors = []
 
@@ -30,76 +33,36 @@ function draw() {
   background(220);
   noStroke();
 
-  duck1.display();
+  ducks1=new duck1(300,300,80)
 
-  if (dist(x, y, mouseX, mouseY) < 40) {
-    if (mouseIsPressed) {
-      console.log("muelto");
-      return;
+  ducks1.display()
+  ducks1.move()
+  }
+
+  function mousePressed(){
+    if(ducks1.clickMe()){
+      console.log('muelto')
     }
-}
-
-  //draw from elements list
- /* elements.forEach((element) => {
-    fill(element.col);
-    ellipse(element.x, element.y, element.size, element.size);
-  })
-
-  //draw from cursors list
-  cursors.forEach((element) => {
-    fill(element.col),
-      ellipse(element.x, element.y, element.size, element.size)
-  })*/
-}
+  }
 
 class duck1 {
-    constructor(img,x,y){
-        img: img;
-        x:x;
-        y:y;
-    }
-    
-    display() {
-        noStroke();
-        fill(100, 200, 100)
-        image(img,x-50,y-50,100,100);
-    }
-}
-
-/*function mousePressed() {
-  const element = {
-    x: mouseX,
-    y: mouseY,
-    col: color.value(),
-    size: slider.value(),
+  constructor(x,y,w){
+      this.x=x;
+      this.y=y;
+      this.w=w
+  }
+  
+  display(){
+      noStroke();
+      fill(100, 200, 100)
+      image(ducka,this.x-50,this.y-50,this.w,this.w);
   }
 
-  socket.emit('send-element', element)
-}
-
-function mouseDragged() {
-  const element = {
-    x: mouseX,
-    y: mouseY,
-    col: color.value(),
-    size: slider.value(),
-    id: id
+  clickMe(){
+  	return (dist(mouseX, mouseY, this.x-20, this.y-20)<(this.w/2));   
   }
 
-  socket.emit('send-cursor', element)
-}
-
-socket.on('element-received', (element) => {
-  //console.log("element-received: ",element)
-  elements.push(element)
-})
-
-socket.on('cursor-received', (element) => {
-  //console.log("element-received: ",element)
-  let cursorIndex = cursors.findIndex((index) => element.id == getItem.id)
-  if (cursorIndex != -1) {
-    cursors[cursorIndex] = element
-  } else {
-    cursors.push(element)
+  move(){
+    this.x = this.x + 10;
   }
-})*/
+}
