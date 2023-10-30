@@ -1,4 +1,5 @@
-//const socket = io()
+const socket = io("");
+
 
 let points = 0;
 let numberOfDucks = 8;
@@ -13,6 +14,7 @@ function preload() {
   shoot = loadSound('./assets/shot.mp3');
   duckFall = loadSound('./assets/duckFall.mp3')
 }
+
 
 function setup() {
   createCanvas(1600, 1200);
@@ -30,6 +32,13 @@ function setup() {
   button = createButton('Moar Ducks!')
   button.mousePressed(restart);
 }
+
+socket.on('mensaje',(elemento)=>{
+  // Dibujar el elemento recibido en el otro cliente.
+  console.log ("recibiendo-elemento:", elemento)
+  //elementos.push (elemento)
+});
+
 
 function draw() {
   //Backgroun

@@ -5,12 +5,16 @@ import express from 'express'
 import { Server } from 'socket.io'
 
 const app = express()
-const io = new Server(5500);
-/*
+const server = http.createServer(app);
+const io = new Server(server);
+
+app.use(express.static('public'))
+
 const protocolConfiguration = {
-    path: 'COM3',
+    path: 'COM4',
     baudRate: 9600
 }
+
 
 const port = new SerialPort(protocolConfiguration);
 const parser = port.pipe(new ReadlineParser());
@@ -22,12 +26,45 @@ app.get('/', (req, res) => {
 })
 port.on('error', function (err) {
     console.log('Error: ', err.message);
-})*/
+})
+parser.on('data', (data) => {
+    console.log(data);
+    let ardInput = [];
+    let input = data.split(":");
+    console.log(input[1]);
+    if (input[0] == "X") {
+        ardInput[0] = input[1];
+    } else if (input[0] == "Y") {
+        ardInput[1] = input[1];
+    } else if (input[0] == "F") {
+        ardInput[2] = input[1]
+    } else {
+        console.log("wtf is this?", input[0]);
+    }
+    io.emit("mensaje", {"x":ardInput[0], "y":ardInput[1], "f":ardInput[2]})
+});
 
-app.use(express.static('public'))
+//conexion de cliente
+io.on('connect', (socket) => {
+    //HOLA
+    console.log('Usuario conectado');
 
-app.listen(3000, () => {
-    console.log("Node Server Starts at 3000");
+    /*socket.on('send-element', (element) => {
+        io.emit('element-received', element)
+    })
+
+    socket.on('send-cursor', (element) => {
+        io.emit('cursor-received', element);
+    })*/
+
+    //desconexion
+    socket.on('disconnect', () => {
+        console.log('Usuario conectado');
+    })
+})
+
+server.listen(3000, () => {
+    console.log('LISTENING PORT 3000')
 });
 
 //librerias
