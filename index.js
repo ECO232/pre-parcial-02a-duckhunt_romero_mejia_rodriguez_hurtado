@@ -1,8 +1,12 @@
+import * as http from 'http';
 import { SerialPort } from 'serialport'
 import { ReadlineParser } from 'serialport'
 import express from 'express'
-//const express = require('express')
+import { Server } from 'socket.io'
+
 const app = express()
+const io = new Server(5500);
+/*
 const protocolConfiguration = {
     path: 'COM3',
     baudRate: 9600
@@ -18,7 +22,9 @@ app.get('/', (req, res) => {
 })
 port.on('error', function (err) {
     console.log('Error: ', err.message);
-})
+})*/
+
+app.use(express.static('public'))
 
 app.listen(3000, () => {
     console.log("Node Server Starts at 3000");
