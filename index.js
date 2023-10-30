@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 //conexion de cliente
-io.on('connect', (socket) => {
+/*io.on('connect', (socket) => {
     //HOLA
     console.log('Usuario conectado');
 
@@ -33,6 +33,7 @@ io.on('connect', (socket) => {
         console.log('Usuario desconectado');
     })
 })
+*/
 
 server.listen(3000, () => {
     console.log('LISTENING PORT 3000')

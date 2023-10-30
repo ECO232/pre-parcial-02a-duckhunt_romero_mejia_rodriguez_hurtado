@@ -6,12 +6,12 @@ let ducks = [];
 let duckSprite1, duckSprite2, duckHuntBG, crosshair, shoot, duckFall
 
 function preload() {
-  duckSprite1 = loadImage('../assets/duck1.png');
-  duckSprite2 = loadImage('../assets/duck2.png');
-  duckHuntBG = loadImage('../assets/duckHuntBG.jpg');
-  crosshair = loadImage('../assets/PanzerCrosshair.png');
-  shoot = loadSound('../assets/shot.mp3');
-  duckFall = loadSound('../assets/duckFall.mp3')
+  duckSprite1 = loadImage('./assets/duck1.png');
+  duckSprite2 = loadImage('./assets/duck2.png');
+  duckHuntBG = loadImage('./assets/duckHuntBG.jpg');
+  crosshair = loadImage('./assets/PanzerCrosshair.png');
+  shoot = loadSound('./assets/shot.mp3');
+  duckFall = loadSound('./assets/duckFall.mp3')
 }
 
 function setup() {
