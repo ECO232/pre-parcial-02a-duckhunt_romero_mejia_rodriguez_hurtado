@@ -7,5 +7,16 @@
     "socket.io-client": "^4.7.2",
     "zod": "^3.22.4"
   },
-  "type": "module"
+  "type": "module",
+  "name": "pre-parcial-02a-duckhunt_romero_mejia_rodriguez_hurtado",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
