@@ -1,5 +1,3 @@
-//int controllerInput[3] = {0, 0, 0};
-
 void setup()
 {
   Serial.begin(9600);
@@ -12,21 +10,16 @@ void setup()
 void loop()
 {
   int valueX = analogRead(A1);
-  Serial.print("X Poten:");
+  Serial.print("X:");
   Serial.println(valueX);
-  //controllerInput[0] = valueX;
   
   int valueY = analogRead(A0);
-  Serial.print("Y Poten:");
+  Serial.print("Y:");
   Serial.println(valueY);
-  //controllerInput[1] = valueY;
 
   bool fire = digitalRead(7);
-  Serial.print("Fire: ");
+  Serial.print("F:");
   Serial.println(fire);
-  //controllerInput[2] = fire;
-  
-  //Serial.print("ConIn: ");
-  //Serial.println(controllerInput);
-  delay(300);
+
+  delay(100);
 }

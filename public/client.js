@@ -5,6 +5,8 @@ let points = 0;
 let numberOfDucks = 8;
 let ducks = [];
 let duckSprite1, duckSprite2, duckHuntBG, crosshair, shoot, duckFall
+let ardMouseX = 1600/2;
+let ardMouseY = 1200/2;
 
 function preload() {
   duckSprite1 = loadImage('./assets/duck1.png');
@@ -33,10 +35,16 @@ function setup() {
   button.mousePressed(restart);
 }
 
-socket.on('mensaje',(elemento)=>{
+socket.on('mensaje',(element)=>{
   // Dibujar el elemento recibido en el otro cliente.
-  console.log ("recibiendo-elemento:", elemento)
-  //elementos.push (elemento)
+  //console.log ("ardInput:", element)  
+
+  ardMouseX = 1.56403 * parseInt(element.x)
+  ardMouseY = 1.17302 * parseInt(element.y)
+
+  if (parseInt(element.f) == 1) {
+    mousePressed()
+  }
 });
 
 
@@ -57,7 +65,7 @@ function draw() {
   }
 
   let crossSize = 100;
-  image(crosshair, mouseX - crossSize/2, mouseY - crossSize/2, crossSize, crossSize)
+  image(crosshair, ardMouseX - crossSize/2, ardMouseY - crossSize/2, crossSize, crossSize)
 }
 
 function mousePressed() {
@@ -100,7 +108,7 @@ class duck1 {
   }
 
   clickMe() {
-    return (dist(mouseX, mouseY, this.x, this.y) < (this.w / 2));
+    return (dist(ardMouseX, ardMouseY, this.x, this.y) < (this.w / 2));
   }
 
   move() {
@@ -131,7 +139,7 @@ class duck2 {
   }
 
   clickMe() {
-    return (dist(mouseX, mouseY, this.x, this.y) < (this.w / 2));
+    return (dist(ardMouseX, ardMouseY, this.x, this.y) < (this.w / 2));
   }
 
   move() {
